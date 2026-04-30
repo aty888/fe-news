@@ -1,4 +1,4 @@
-import { Sun, Moon, Rss, Github, Search, BookmarkCheck } from 'lucide-react';
+import { Sun, Moon, Rss, Github, Search } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';

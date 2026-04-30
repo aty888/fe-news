@@ -1,4 +1,4 @@
-import { Rss, Github, Twitter, Heart } from "lucide-react";
+import { Rss, Github, Heart } from "lucide-react";
 
 export default function Footer() {
   return (
