@@ -19,6 +19,7 @@ export default function Navbar({ onSearchOpen, bookmarkCount = 0 }: NavbarProps)
     { to: '/tutorials', label: '튜토리얼' },
     { to: '/releases', label: '릴리즈' },
     { to: '/bookmarks', label: '북마크' },
+    { to: '/board', label: '게시판' },
   ];
 
   const isActive = (path: string) => {
