@@ -13,6 +13,7 @@ import BookmarksPage from './pages/BookmarksPage/BookmarksPage';
 import BoardPage from './pages/BoardPage/BoardPage';
 import BoardFormPage from './pages/BoardPage/BoardFormPage';
 import BoardDetailPage from './pages/BoardPage/BoardDetailPage';
+import ResourcesPage from './pages/ResourcesPage/ResourcesPage';
 
 function AppInner() {
   const { articles, featured, filter, setFilter, toggleBookmark, bookmarks, isLoading } = useArticles();
@@ -74,6 +75,7 @@ function AppInner() {
           <Route path="/board/create" element={<BoardFormPage />} />
           <Route path="/board/edit/:id" element={<BoardFormPage />} />
           <Route path="/board/:id" element={<BoardDetailPage />} />
+          <Route path="/resources" element={<ResourcesPage />} />
         </Routes>
       </main>
 

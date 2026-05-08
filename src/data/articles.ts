@@ -16,9 +16,9 @@ export const categoryColors: Record<string, string> = {
 };
 
 export const typeLabels: Record<string, { label: string; icon: string }> = {
-  news: { label: '뉴스', icon: '📰' },
-  tutorial: { label: '튜토리얼', icon: '📚' },
-  release: { label: '릴리즈', icon: '🚀' },
-  tip: { label: '팁', icon: '💡' },
+  news: { label: '업계 소식', icon: '📰' },
+  tutorial: { label: '학습/가이드', icon: '📚' },
+  release: { label: '새 버전 업데이트', icon: '🚀' },
+  tip: { label: '유용한 팁', icon: '💡' },
   discussion: { label: '토론', icon: '💬' },
 };

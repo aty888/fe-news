@@ -7,6 +7,16 @@ export interface FilterState {
   category: Category | "All";
   type: ContentType | "All";
   bookmarked: boolean;
+  language: "All" | "ko" | "en";
+}
+
+// 텍스트에 한글이 포함되어 있는지 확인하여 언어 판별
+function detectLanguage(title: string = "", summary: string = ""): "ko" | "en" {
+  const koreanRegex = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+  if (koreanRegex.test(title) || koreanRegex.test(summary)) {
+    return "ko";
+  }
+  return "en";
 }
 
 // 외부 태그를 새로운 Category 타입으로 매핑하는 헬퍼 함수
@@ -51,6 +61,7 @@ export function useArticles() {
     category: "All",
     type: "All",
     bookmarked: false,
+    language: "All",
   });
 
   const [fetchedArticles, setFetchedArticles] = useState<Article[]>([]);
@@ -96,27 +107,18 @@ export function useArticles() {
         console.error("Substack API 연동 실패:", error);
       }
 
-      // 2. Dev.to API (다양한 기술 태그 병렬 호출)
+      // 2. Dev.to API (캐싱 적용 및 요청 최적화)
       try {
-        const devTags = [
-          "frontend",
-          "webdev",
-          "javascript",
-          "react",
-          "claude",
-          "ai",
-          "tutorial",
-          "tips",
-        ];
-        const devPromises = devTags.map((tag) =>
-          fetch(`https://dev.to/api/articles?tag=${tag}&per_page=15`).then(
-            (res) => (res.ok ? res.json() : [])
-          )
-        );
-        const devResultsArray = await Promise.all(devPromises);
-        const devData = devResultsArray.flat();
+        const CACHE_KEY = "fe-news-devto-cache";
+        const CACHE_TIME_KEY = "fe-news-devto-cache-time";
+        const cachedData = sessionStorage.getItem(CACHE_KEY);
+        const cachedTime = sessionStorage.getItem(CACHE_TIME_KEY);
         
-        if (Array.isArray(devData)) {
+        // 5분(300,000ms) 동안 캐시 유효
+        const isCacheValid = cachedTime && Date.now() - parseInt(cachedTime) < 300000;
+
+        if (cachedData && isCacheValid) {
+          const devData = JSON.parse(cachedData);
           devData.forEach((post: any) => {
             if (!post) return;
             results.push({
@@ -126,10 +128,7 @@ export function useArticles() {
               category: mapDevToCategory(post.tag_list || []),
               type: getArticleType(post.tag_list || [], post.title),
               author: post.user?.name || "Dev.to User",
-              publishedAt:
-                post.published_timestamp ||
-                post.published_at ||
-                new Date().toISOString(),
+              publishedAt: post.published_timestamp || post.published_at || new Date().toISOString(),
               readTime: post.reading_time_minutes || 5,
               url: post.url || "#",
               tags: post.tag_list || [],
@@ -138,6 +137,48 @@ export function useArticles() {
               views: post.page_views_count || 0,
             });
           });
+        } else {
+          // 태그를 핵심적인 4개로 축소하여 요청 횟수 절감
+          const devTags = ["frontend", "webdev", "javascript", "react"];
+          const devPromises = devTags.map((tag) =>
+            fetch(`https://dev.to/api/articles?tag=${tag}&per_page=15`).then(
+              (res) => (res.ok ? res.json() : [])
+            )
+          );
+          const devResultsArray = await Promise.all(devPromises);
+          const devData = devResultsArray.flat();
+          
+          if (Array.isArray(devData)) {
+            // 중복 제거 (여러 태그에 걸린 게시물)
+            const seenIds = new Set();
+            const uniqueDevData = devData.filter(post => {
+              if (!post || seenIds.has(post.id)) return false;
+              seenIds.add(post.id);
+              return true;
+            });
+
+            uniqueDevData.forEach((post: any) => {
+              results.push({
+                id: `dev-${post.id}`,
+                title: post.title || "No Title",
+                summary: post.description || "",
+                category: mapDevToCategory(post.tag_list || []),
+                type: getArticleType(post.tag_list || [], post.title),
+                author: post.user?.name || "Dev.to User",
+                publishedAt: post.published_timestamp || post.published_at || new Date().toISOString(),
+                readTime: post.reading_time_minutes || 5,
+                url: post.url || "#",
+                tags: post.tag_list || [],
+                imageUrl: post.cover_image || post.social_image,
+                likes: post.public_reactions_count || 0,
+                views: post.page_views_count || 0,
+              });
+            });
+
+            // 캐시에 저장
+            sessionStorage.setItem(CACHE_KEY, JSON.stringify(uniqueDevData));
+            sessionStorage.setItem(CACHE_TIME_KEY, Date.now().toString());
+          }
         }
       } catch (error) {
         console.error("Dev.to API 연동 실패:", error);
@@ -192,6 +233,24 @@ export function useArticles() {
           url: "https://techblog.woowahan.com/feed/",
           author: "우아한형제들",
           category: "Architecture",
+          type: "tutorial",
+        },
+        {
+          url: "https://tech.kakao.com/feed/",
+          author: "Kakao Tech",
+          category: "Web/Browser",
+          type: "tutorial",
+        },
+        {
+          url: "https://d2.naver.com/d2.atom",
+          author: "Naver D2",
+          category: "Architecture",
+          type: "tutorial",
+        },
+        {
+          url: "https://engineering.linecorp.com/ko/feed/",
+          author: "LINE Engineering",
+          category: "Performance",
           type: "tutorial",
         },
         {
@@ -324,6 +383,13 @@ export function useArticles() {
 
     if (filter.bookmarked) {
       result = result.filter((a) => a.isBookmarked);
+    }
+
+    if (filter.language !== "All") {
+      result = result.filter((a) => {
+        const lang = a.language || detectLanguage(a.title, a.summary);
+        return lang === filter.language;
+      });
     }
 
     return result;

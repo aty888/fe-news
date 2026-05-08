@@ -30,6 +30,7 @@ export interface Article {
   imageUrl?: string;
   views?: number;
   likes?: number;
+  language?: 'ko' | 'en';
 }
 
 export interface NewsletterSubscription {
