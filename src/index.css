@@ -26,7 +26,7 @@
   }
 
   body {
-    @apply antialiased font-sans;
+    @apply font-sans antialiased;
     background-color: rgb(var(--color-bg));
     color: rgb(var(--color-text-primary));
     transition:
@@ -48,7 +48,7 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-slate-300 dark:bg-slate-700 rounded-full;
+    @apply rounded-full bg-slate-300 dark:bg-slate-700;
   }
 
   ::-webkit-scrollbar-thumb:hover {
@@ -68,7 +68,7 @@
   }
 
   .tag {
-    @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold tracking-wide;
+    @apply inline-flex gap-1 items-center px-2.5 py-0.5 text-xs font-semibold tracking-wide whitespace-nowrap rounded-full shrink-0;
   }
 
   .tag-brand {
@@ -88,7 +88,7 @@
   }
 
   .gradient-text {
-    @apply bg-gradient-to-r from-brand-500 to-accent-500 bg-clip-text text-transparent;
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-brand-500 to-accent-500;
   }
 
   .section-title {
@@ -101,19 +101,19 @@
   }
 
   .btn-primary {
-    @apply inline-flex items-center gap-2 px-4 py-2 bg-brand-500 hover:bg-brand-600 text-white rounded-xl font-medium text-sm transition-all duration-200 active:scale-95;
+    @apply inline-flex gap-2 items-center px-4 py-2 text-sm font-medium text-white rounded-xl transition-all duration-200 bg-brand-500 hover:bg-brand-600 active:scale-95;
   }
 
   .btn-ghost {
-    @apply inline-flex items-center gap-2 px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl font-medium text-sm transition-all duration-200 active:scale-95;
+    @apply inline-flex gap-2 items-center px-4 py-2 text-sm font-medium rounded-xl transition-all duration-200 hover:bg-slate-100 dark:hover:bg-slate-800 active:scale-95;
   }
 
   .input-base {
-    @apply w-full px-4 py-2.5 rounded-xl border bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500/40 focus:border-brand-500 transition-all duration-200;
+    @apply px-4 py-2.5 w-full text-sm bg-white rounded-xl border transition-all duration-200 dark:bg-slate-900 border-slate-200 dark:border-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500/40 focus:border-brand-500;
   }
 
   .glass {
-    @apply backdrop-blur-md bg-white/80 dark:bg-slate-900/80 border border-white/20 dark:border-slate-700/50;
+    @apply border backdrop-blur-md bg-white/80 dark:bg-slate-900/80 border-white/20 dark:border-slate-700/50;
   }
 }
 
@@ -126,5 +126,100 @@
     animation:
       fadeIn 0.4s ease-out,
       slideUp 0.4s ease-out;
+  }
+
+  /* 히어로 섹션 도트 그리드 패턴 (하위 호환용) */
+  .dot-grid {
+    background-image: radial-gradient(circle, rgb(98 114 242 / 0.18) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+  .dark .dot-grid {
+    background-image: radial-gradient(circle, rgb(98 114 242 / 0.12) 1px, transparent 1px);
+  }
+
+  /* 히어로 전용 크로스 그리드 + 코너 도트 패턴 */
+  .hero-pattern {
+    background-color: transparent;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Ccircle cx='0'  cy='0'  r='1.2' fill='%236272f2' opacity='0.18'/%3E%3Ccircle cx='56' cy='0'  r='1.2' fill='%236272f2' opacity='0.18'/%3E%3Ccircle cx='0'  cy='56' r='1.2' fill='%236272f2' opacity='0.18'/%3E%3Ccircle cx='56' cy='56' r='1.2' fill='%236272f2' opacity='0.18'/%3E%3Cpath d='M28 22v12M22 28h12' stroke='%236272f2' stroke-width='0.9' opacity='0.13' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-size: 56px 56px;
+  }
+  .dark .hero-pattern {
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Ccircle cx='0'  cy='0'  r='1.2' fill='%238197f8' opacity='0.22'/%3E%3Ccircle cx='56' cy='0'  r='1.2' fill='%238197f8' opacity='0.22'/%3E%3Ccircle cx='0'  cy='56' r='1.2' fill='%238197f8' opacity='0.22'/%3E%3Ccircle cx='56' cy='56' r='1.2' fill='%238197f8' opacity='0.22'/%3E%3Cpath d='M28 22v12M22 28h12' stroke='%238197f8' stroke-width='0.9' opacity='0.18' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-size: 56px 56px;
+  }
+
+  /* 히어로 shimmer 텍스트 */
+  .shimmer-text {
+    background: linear-gradient(
+      120deg,
+      #6272f2 0%,
+      #a78bfa 30%,
+      #f43f5e 50%,
+      #a78bfa 70%,
+      #6272f2 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 5s linear infinite;
+  }
+
+  @keyframes shimmer {
+    0%   { background-position: -200% center; }
+    100% { background-position:  200% center; }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-14px); }
+  }
+
+  @keyframes drift {
+    0%, 100% { transform: translateY(0px) translateX(0px); }
+    33%       { transform: translateY(-18px) translateX(8px); }
+    66%       { transform: translateY(8px) translateX(-10px); }
+  }
+
+  @keyframes glow {
+    0%, 100% { opacity: 0.5; }
+    50%       { opacity: 1; }
+  }
+
+  /* 뱃지 개별 float 변형 — 방향·높이가 각기 다름 */
+  .badge-float-a { animation: badgeFloatA 5s ease-in-out infinite; }
+  .badge-float-b { animation: badgeFloatB 7s ease-in-out infinite; }
+  .badge-float-c { animation: badgeFloatC 6s ease-in-out infinite; }
+  .badge-float-d { animation: badgeFloatD 8s ease-in-out infinite; }
+
+  @keyframes badgeFloatA {
+    0%, 100% { transform: translateY(0px)   translateX(0px);  }
+    50%       { transform: translateY(-12px) translateX(4px);  }
+  }
+  @keyframes badgeFloatB {
+    0%, 100% { transform: translateY(0px)  translateX(0px);   }
+    40%       { transform: translateY(10px) translateX(-6px);  }
+    80%       { transform: translateY(-8px) translateX(3px);   }
+  }
+  @keyframes badgeFloatC {
+    0%, 100% { transform: translateY(0px)    translateX(0px); }
+    33%       { transform: translateY(-16px)  translateX(-4px);}
+    66%       { transform: translateY(6px)    translateX(5px); }
+  }
+  @keyframes badgeFloatD {
+    0%, 100% { transform: translateY(0px)   translateX(0px);  }
+    50%       { transform: translateY(14px)  translateX(-3px); }
+  }
+
+  @keyframes fadeIn {
+    0%   { opacity: 0; }
+    100% { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    0%   { opacity: 0; transform: translateY(16px); }
+    100% { opacity: 1; transform: translateY(0); }
   }
 }

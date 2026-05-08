@@ -697,7 +697,12 @@ function CodeBlock({ code }: { code: string }) {
   const [copied, setCopied] = useState(false);
   return (
     <div className="relative group">
-      <pre className="overflow-x-auto p-4 font-mono text-xs leading-relaxed whitespace-pre-wrap rounded-xl bg-slate-900 dark:bg-black/60 text-slate-100">
+      <div className="flex gap-1.5 items-center px-4 py-2.5 rounded-t-xl bg-slate-800 dark:bg-black/80 border-b border-white/5">
+        <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
+        <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
+        <span className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
+      </div>
+      <pre className="overflow-x-auto px-4 py-4 font-mono text-xs leading-relaxed whitespace-pre-wrap rounded-b-xl bg-slate-900 dark:bg-black/60 text-slate-100">
         {code}
       </pre>
       <button
@@ -726,12 +731,19 @@ function SectionTitle({
   sub?: string;
 }) {
   return (
-    <div className="mb-6">
-      <h2 className="flex gap-2 items-center text-2xl font-bold text-slate-900 dark:text-white">
-        <Icon size={22} className={color} /> {text}
-      </h2>
+    <div className="mb-8">
+      <div className="flex gap-3 items-center mb-2">
+        <div className="flex justify-center items-center w-9 h-9 bg-gradient-to-br rounded-xl border from-violet-500/20 to-violet-600/10 border-violet-500/20">
+          <Icon size={18} className={color} />
+        </div>
+        <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+          {text}
+        </h2>
+      </div>
       {sub && (
-        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{sub}</p>
+        <p className="ml-12 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+          {sub}
+        </p>
       )}
     </div>
   );
@@ -745,11 +757,14 @@ function TipBox({
   children: React.ReactNode;
 }) {
   return (
-    <div className="p-4 bg-amber-50 rounded-xl border border-amber-200 dark:bg-amber-500/10 dark:border-amber-500/20">
-      <p className="text-sm font-semibold text-amber-800 dark:text-amber-300 mb-2 flex items-center gap-1.5">
-        <Star size={13} /> {title ?? "20년차 팁"}
+    <div className="p-5 bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl border shadow-sm border-amber-200/80 dark:from-amber-500/10 dark:to-orange-500/5 dark:border-amber-500/20">
+      <p className="flex gap-2 items-center mb-3 text-sm font-semibold text-amber-800 dark:text-amber-300">
+        <span className="flex justify-center items-center w-5 h-5 rounded-full bg-amber-400/30">
+          <Star size={11} className="text-amber-600 dark:text-amber-400" />
+        </span>
+        {title ?? "팁"}
       </p>
-      <div className="space-y-1 text-sm leading-relaxed text-amber-700 dark:text-amber-300/90">
+      <div className="space-y-1 text-sm leading-relaxed text-amber-800/80 dark:text-amber-300/90">
         {children}
       </div>
     </div>
@@ -758,11 +773,14 @@ function TipBox({
 
 function AnalogyBox({ children }: { children: React.ReactNode }) {
   return (
-    <div className="p-4 bg-blue-50 rounded-xl border border-blue-200 dark:bg-blue-500/10 dark:border-blue-500/20">
-      <p className="text-sm font-semibold text-blue-800 dark:text-blue-300 mb-2 flex items-center gap-1.5">
-        <Layers size={13} /> 비유로 이해하기
+    <div className="p-5 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl border shadow-sm border-blue-200/80 dark:from-blue-500/10 dark:to-indigo-500/5 dark:border-blue-500/20">
+      <p className="flex gap-2 items-center mb-3 text-sm font-semibold text-blue-800 dark:text-blue-300">
+        <span className="flex justify-center items-center w-5 h-5 rounded-full bg-blue-400/30">
+          <Layers size={11} className="text-blue-600 dark:text-blue-400" />
+        </span>
+        비유로 이해하기
       </p>
-      <div className="text-sm leading-relaxed text-blue-700 dark:text-blue-300/90">
+      <div className="text-sm leading-relaxed text-blue-800/80 dark:text-blue-300/90">
         {children}
       </div>
     </div>
@@ -777,11 +795,14 @@ function WarningBox({
   children: React.ReactNode;
 }) {
   return (
-    <div className="p-4 bg-red-50 rounded-xl border border-red-200 dark:bg-red-500/10 dark:border-red-500/20">
-      <p className="text-sm font-semibold text-red-800 dark:text-red-300 mb-2 flex items-center gap-1.5">
-        <AlertTriangle size={13} /> {title ?? "흔한 실수"}
+    <div className="p-5 bg-gradient-to-br from-red-50 to-rose-50 rounded-2xl border shadow-sm border-red-200/80 dark:from-red-500/10 dark:to-rose-500/5 dark:border-red-500/20">
+      <p className="flex gap-2 items-center mb-3 text-sm font-semibold text-red-800 dark:text-red-300">
+        <span className="flex justify-center items-center w-5 h-5 rounded-full bg-red-400/30">
+          <AlertTriangle size={11} className="text-red-600 dark:text-red-400" />
+        </span>
+        {title ?? "흔한 실수"}
       </p>
-      <div className="space-y-1 text-sm leading-relaxed text-red-700 dark:text-red-300/90">
+      <div className="space-y-1 text-sm leading-relaxed text-red-800/80 dark:text-red-300/90">
         {children}
       </div>
     </div>
@@ -991,7 +1012,7 @@ function IntroTab() {
 
       <TipBox>
         <p>
-          20년 동안 개발하면서 수많은 "생산성 도구"를 써봤습니다. 대부분 처음 한
+          그동안 개발하면서 수많은 "생산성 도구"를 써봤습니다. 대부분 처음 한
           달만 쓰고 버렸습니다. Claude Code는 달랐습니다. 특히 세 가지에서 체감
           효과가 압도적입니다.{" "}
           <strong>
@@ -2288,38 +2309,52 @@ function NewsTab() {
         </div>
       )}
 
-      {!isLoading && releases.length > 0 && (() => {
-        const r = releases[0];
-        return (
-          <div>
-            <h3 className="flex gap-2 items-center mb-4 text-lg font-bold text-slate-900 dark:text-white">
-              <Package size={18} className="text-teal-500" /> 최신 GitHub 릴리즈
-            </h3>
-            <a
-              href={r.html_url}
-              target="_blank"
-              rel="noreferrer"
-              className="flex items-start gap-4 p-5 rounded-xl bg-white dark:bg-[#151515] border border-slate-200 dark:border-white/5 hover:border-teal-400 dark:hover:border-teal-500 hover:-translate-y-0.5 transition-all group"
-            >
-              <span className={`shrink-0 text-xs font-bold px-2 py-0.5 rounded-full mt-0.5 ${r.prerelease ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-500/20 dark:text-yellow-300' : 'bg-teal-100 text-teal-700 dark:bg-teal-500/20 dark:text-teal-300'}`}>
-                {r.tag_name}
-              </span>
-              <div className="flex-1 min-w-0">
-                <p className="mb-1 font-semibold transition-colors text-slate-800 dark:text-slate-200 group-hover:text-teal-600 dark:group-hover:text-teal-400">
-                  {r.name || r.tag_name}
-                </p>
-                <p className="text-sm leading-relaxed text-slate-500 dark:text-slate-400 line-clamp-3">
-                  {r.body?.split('\n').slice(0, 3).join(' ').replace(/[#*`]/g, '') || '변경사항 없음'}
-                </p>
-              </div>
-              <div className="text-right shrink-0">
-                <p className="text-xs text-slate-400">{new Date(r.published_at).toLocaleDateString('ko-KR')}</p>
-                <ExternalLink size={12} className="mt-1 ml-auto text-slate-300 dark:text-slate-600" />
-              </div>
-            </a>
-          </div>
-        );
-      })()}
+      {!isLoading &&
+        releases.length > 0 &&
+        (() => {
+          const r = releases[0];
+          return (
+            <div>
+              <h3 className="flex gap-2 items-center mb-4 text-lg font-bold text-slate-900 dark:text-white">
+                <Package size={18} className="text-teal-500" /> 최신 GitHub
+                릴리즈
+              </h3>
+              <a
+                href={r.html_url}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-start gap-4 p-5 rounded-xl bg-white dark:bg-[#151515] border border-slate-200 dark:border-white/5 hover:border-teal-400 dark:hover:border-teal-500 hover:-translate-y-0.5 transition-all group"
+              >
+                <span
+                  className={`shrink-0 text-xs font-bold px-2 py-0.5 rounded-full mt-0.5 ${r.prerelease ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-500/20 dark:text-yellow-300" : "bg-teal-100 text-teal-700 dark:bg-teal-500/20 dark:text-teal-300"}`}
+                >
+                  {r.tag_name}
+                </span>
+                <div className="flex-1 min-w-0">
+                  <p className="mb-1 font-semibold transition-colors text-slate-800 dark:text-slate-200 group-hover:text-teal-600 dark:group-hover:text-teal-400">
+                    {r.name || r.tag_name}
+                  </p>
+                  <p className="text-sm leading-relaxed text-slate-500 dark:text-slate-400 line-clamp-3">
+                    {r.body
+                      ?.split("\n")
+                      .slice(0, 3)
+                      .join(" ")
+                      .replace(/[#*`]/g, "") || "변경사항 없음"}
+                  </p>
+                </div>
+                <div className="text-right shrink-0">
+                  <p className="text-xs text-slate-400">
+                    {new Date(r.published_at).toLocaleDateString("ko-KR")}
+                  </p>
+                  <ExternalLink
+                    size={12}
+                    className="mt-1 ml-auto text-slate-300 dark:text-slate-600"
+                  />
+                </div>
+              </a>
+            </div>
+          );
+        })()}
 
       {!isLoading && articles.length > 0 && (
         <div>
@@ -2441,25 +2476,99 @@ function NewsTab() {
         </p>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {[
-            { title: 'anthropics/claude-code',               stars: '55,000 ⭐', url: 'https://github.com/anthropics/claude-code',                     badge: '공식',    badgeColor: 'bg-violet-500', desc: 'Claude Code 공식 오픈소스 저장소. 이슈 트래커와 릴리즈 노트를 여기서 확인하세요.' },
-            { title: 'anthropics/skills',                    stars: '37,500 ⭐', url: 'https://github.com/anthropics/skills',                         badge: '공식',    badgeColor: 'bg-violet-500', desc: '공식 Agent Skills 저장소. frontend-design, web-artifacts-builder 등 프론트엔드 스킬 파일 포함.' },
-            { title: 'ruvnet/claude-flow',                   stars: '31,800 ⭐', url: 'https://github.com/ruvnet/claude-flow',                         badge: '추천',    badgeColor: 'bg-blue-500',   desc: '멀티 에이전트 오케스트레이션 플랫폼. wiki에 React/Next.js 전용 CLAUDE.md 가이드가 별도 정리되어 있습니다.' },
-            { title: 'VoltAgent/awesome-agent-skills',       stars: '',          url: 'https://github.com/VoltAgent/awesome-agent-skills',             badge: '큐레이션', badgeColor: 'bg-green-500',  desc: 'Google, Microsoft 등 기업 공식 프론트엔드 스킬 파일 모음. Anthropic 공식 스킬도 포함.' },
-            { title: 'ComposioHQ/awesome-claude-plugins',    stars: '',          url: 'https://github.com/ComposioHQ/awesome-claude-plugins',          badge: '큐레이션', badgeColor: 'bg-green-500',  desc: 'frontend-design, senior-frontend, frontend-developer 등 React/TypeScript 전용 플러그인 MD 정리.' },
-            { title: 'travisvn/awesome-claude-skills',       stars: '',          url: 'https://github.com/travisvn/awesome-claude-skills',             badge: '큐레이션', badgeColor: 'bg-green-500',  desc: 'frontend-design, web-artifacts-builder, webapp-testing(Playwright) 스킬 포함.' },
-            { title: 'VoltAgent/awesome-claude-code-subagents', stars: '',       url: 'https://github.com/VoltAgent/awesome-claude-code-subagents',    badge: '큐레이션', badgeColor: 'bg-green-500',  desc: '100개 이상 전문 서브에이전트. categories/01-core-development/frontend-developer.md에 React/Vue/Angular 프롬프트 수록.' },
-            { title: 'jqueryscript/awesome-claude-code',     stars: '',          url: 'https://github.com/jqueryscript/awesome-claude-code',           badge: '큐레이션', badgeColor: 'bg-green-500',  desc: 'Claude Code 생태계 전체를 스타 기준으로 정리. 🔥(1k+) 🌟(500+) ✨(100+) 표시로 필터링이 쉽습니다.' },
-          ].map(repo => (
-            <a key={repo.url} href={repo.url} target="_blank" rel="noreferrer"
-              className="flex items-start gap-3 p-4 rounded-xl bg-white dark:bg-[#151515] border border-slate-200 dark:border-white/5 hover:border-violet-400 dark:hover:border-violet-500 hover:-translate-y-0.5 transition-all group">
-              <ExternalLink size={14} className="mt-0.5 text-violet-500 shrink-0" />
+            {
+              title: "anthropics/claude-code",
+              stars: "55,000 ⭐",
+              url: "https://github.com/anthropics/claude-code",
+              badge: "공식",
+              badgeColor: "bg-violet-500",
+              desc: "Claude Code 공식 오픈소스 저장소. 이슈 트래커와 릴리즈 노트를 여기서 확인하세요.",
+            },
+            {
+              title: "anthropics/skills",
+              stars: "37,500 ⭐",
+              url: "https://github.com/anthropics/skills",
+              badge: "공식",
+              badgeColor: "bg-violet-500",
+              desc: "공식 Agent Skills 저장소. frontend-design, web-artifacts-builder 등 프론트엔드 스킬 파일 포함.",
+            },
+            {
+              title: "ruvnet/claude-flow",
+              stars: "31,800 ⭐",
+              url: "https://github.com/ruvnet/claude-flow",
+              badge: "추천",
+              badgeColor: "bg-blue-500",
+              desc: "멀티 에이전트 오케스트레이션 플랫폼. wiki에 React/Next.js 전용 CLAUDE.md 가이드가 별도 정리되어 있습니다.",
+            },
+            {
+              title: "VoltAgent/awesome-agent-skills",
+              stars: "",
+              url: "https://github.com/VoltAgent/awesome-agent-skills",
+              badge: "큐레이션",
+              badgeColor: "bg-green-500",
+              desc: "Google, Microsoft 등 기업 공식 프론트엔드 스킬 파일 모음. Anthropic 공식 스킬도 포함.",
+            },
+            {
+              title: "ComposioHQ/awesome-claude-plugins",
+              stars: "",
+              url: "https://github.com/ComposioHQ/awesome-claude-plugins",
+              badge: "큐레이션",
+              badgeColor: "bg-green-500",
+              desc: "frontend-design, senior-frontend, frontend-developer 등 React/TypeScript 전용 플러그인 MD 정리.",
+            },
+            {
+              title: "travisvn/awesome-claude-skills",
+              stars: "",
+              url: "https://github.com/travisvn/awesome-claude-skills",
+              badge: "큐레이션",
+              badgeColor: "bg-green-500",
+              desc: "frontend-design, web-artifacts-builder, webapp-testing(Playwright) 스킬 포함.",
+            },
+            {
+              title: "VoltAgent/awesome-claude-code-subagents",
+              stars: "",
+              url: "https://github.com/VoltAgent/awesome-claude-code-subagents",
+              badge: "큐레이션",
+              badgeColor: "bg-green-500",
+              desc: "100개 이상 전문 서브에이전트. categories/01-core-development/frontend-developer.md에 React/Vue/Angular 프롬프트 수록.",
+            },
+            {
+              title: "jqueryscript/awesome-claude-code",
+              stars: "",
+              url: "https://github.com/jqueryscript/awesome-claude-code",
+              badge: "큐레이션",
+              badgeColor: "bg-green-500",
+              desc: "Claude Code 생태계 전체를 스타 기준으로 정리. 🔥(1k+) 🌟(500+) ✨(100+) 표시로 필터링이 쉽습니다.",
+            },
+          ].map((repo) => (
+            <a
+              key={repo.url}
+              href={repo.url}
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-start gap-3 p-4 rounded-xl bg-white dark:bg-[#151515] border border-slate-200 dark:border-white/5 hover:border-violet-400 dark:hover:border-violet-500 hover:-translate-y-0.5 transition-all group"
+            >
+              <ExternalLink
+                size={14}
+                className="mt-0.5 text-violet-500 shrink-0"
+              />
               <div className="flex-1 min-w-0">
                 <div className="flex flex-wrap gap-2 items-center mb-1">
-                  <p className="text-sm font-semibold transition-colors text-slate-800 dark:text-slate-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 truncate">{repo.title}</p>
-                  <span className={`shrink-0 text-xs font-bold px-1.5 py-0.5 rounded-full text-white ${repo.badgeColor}`}>{repo.badge}</span>
-                  {repo.stars && <span className="text-xs text-slate-400">{repo.stars}</span>}
+                  <p className="text-sm font-semibold truncate transition-colors text-slate-800 dark:text-slate-200 group-hover:text-violet-600 dark:group-hover:text-violet-400">
+                    {repo.title}
+                  </p>
+                  <span
+                    className={`shrink-0 text-xs font-bold px-1.5 py-0.5 rounded-full text-white ${repo.badgeColor}`}
+                  >
+                    {repo.badge}
+                  </span>
+                  {repo.stars && (
+                    <span className="text-xs text-slate-400">{repo.stars}</span>
+                  )}
                 </div>
-                <p className="text-xs leading-relaxed text-slate-500 dark:text-slate-400">{repo.desc}</p>
+                <p className="text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+                  {repo.desc}
+                </p>
               </div>
             </a>
           ))}
@@ -2473,32 +2582,66 @@ function NewsTab() {
         <div className="overflow-hidden rounded-2xl border border-slate-200 dark:border-white/5">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-slate-50 dark:bg-white/5 border-b border-slate-200 dark:border-white/10">
-                <th className="px-5 py-3 font-semibold text-left text-slate-700 dark:text-slate-300">스킬 파일</th>
-                <th className="px-5 py-3 font-semibold text-left text-slate-700 dark:text-slate-300">주요 내용</th>
+              <tr className="border-b bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10">
+                <th className="px-5 py-3 font-semibold text-left text-slate-700 dark:text-slate-300">
+                  스킬 파일
+                </th>
+                <th className="px-5 py-3 font-semibold text-left text-slate-700 dark:text-slate-300">
+                  주요 내용
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-white/5">
               {[
-                { skill: 'frontend-design',       desc: '"AI slop" 방지, React & Tailwind 디자인 가이드' },
-                { skill: 'web-artifacts-builder', desc: 'React + shadcn/ui + Tailwind 아티팩트 빌더' },
-                { skill: 'webapp-testing',        desc: 'Playwright 기반 UI 자동화 테스트' },
-                { skill: 'senior-frontend',       desc: 'Next.js/TypeScript 패턴, 번들 분석, 접근성' },
-                { skill: 'callstackincubator',    desc: 'React Native 전용 스킬 (328 ⭐)' },
-                { skill: 'web-quality-skills',    desc: 'Lighthouse / Core Web Vitals 최적화 (250 ⭐)' },
-              ].map(row => (
+                {
+                  skill: "frontend-design",
+                  desc: '"AI slop" 방지, React & Tailwind 디자인 가이드',
+                },
+                {
+                  skill: "web-artifacts-builder",
+                  desc: "React + shadcn/ui + Tailwind 아티팩트 빌더",
+                },
+                {
+                  skill: "webapp-testing",
+                  desc: "Playwright 기반 UI 자동화 테스트",
+                },
+                {
+                  skill: "senior-frontend",
+                  desc: "Next.js/TypeScript 패턴, 번들 분석, 접근성",
+                },
+                {
+                  skill: "callstackincubator",
+                  desc: "React Native 전용 스킬 (328 ⭐)",
+                },
+                {
+                  skill: "web-quality-skills",
+                  desc: "Lighthouse / Core Web Vitals 최적화 (250 ⭐)",
+                },
+              ].map((row) => (
                 <tr key={row.skill} className="bg-white dark:bg-[#151515]">
                   <td className="px-5 py-3">
-                    <code className="text-xs font-mono text-violet-600 dark:text-violet-400">{row.skill}</code>
+                    <code className="font-mono text-xs text-violet-600 dark:text-violet-400">
+                      {row.skill}
+                    </code>
                   </td>
-                  <td className="px-5 py-3 text-sm text-slate-500 dark:text-slate-400">{row.desc}</td>
+                  <td className="px-5 py-3 text-sm text-slate-500 dark:text-slate-400">
+                    {row.desc}
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
         <p className="mt-2 text-xs text-slate-400 dark:text-slate-500">
-          위 스킬 파일들은 <code className="px-1 rounded bg-slate-100 dark:bg-white/10 font-mono">.claude/skills/</code> 디렉토리에 복사 후 <code className="px-1 rounded bg-slate-100 dark:bg-white/10 font-mono">/스킬명</code>으로 즉시 사용할 수 있습니다.
+          위 스킬 파일들은{" "}
+          <code className="px-1 font-mono rounded bg-slate-100 dark:bg-white/10">
+            .claude/skills/
+          </code>{" "}
+          디렉토리에 복사 후{" "}
+          <code className="px-1 font-mono rounded bg-slate-100 dark:bg-white/10">
+            /스킬명
+          </code>
+          으로 즉시 사용할 수 있습니다.
         </p>
       </div>
     </div>
@@ -2535,54 +2678,121 @@ export default function ClaudeCodePage() {
 
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-[#0a0a0a] pb-20">
-      <div className="relative overflow-hidden bg-white dark:bg-[#111] border-b border-slate-200 dark:border-white/5 py-12">
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute top-0 left-1/4 w-96 h-96 rounded-full blur-3xl bg-violet-500/10" />
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 rounded-full blur-3xl bg-teal-500/10" />
+      {/* Hero */}
+      <div className="relative overflow-hidden bg-white dark:bg-[#0d0d0d] border-b border-slate-200 dark:border-white/5 py-14">
+        {/* Background blobs */}
+        <div className="absolute inset-0 pointer-events-none -z-10">
+          <div className="absolute -top-20 left-1/4 w-[500px] h-[500px] rounded-full blur-3xl bg-violet-500/8 dark:bg-violet-500/12" />
+          <div className="absolute -bottom-20 right-1/4 w-[500px] h-[500px] rounded-full blur-3xl bg-teal-500/8 dark:bg-teal-500/12" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[200px] rounded-full blur-3xl bg-indigo-500/5 dark:bg-indigo-500/8" />
         </div>
-        <div className="px-4 mx-auto max-w-7xl text-center sm:px-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-violet-500/30 bg-violet-50 dark:bg-violet-500/10 text-violet-600 dark:text-violet-400 text-sm font-medium mb-4">
-            <Terminal size={13} /> AI 코딩 에이전트
-          </div>
-          <h1 className="mb-3 text-4xl font-extrabold tracking-tight sm:text-5xl text-slate-900 dark:text-white">
-            Claude Code <span className="gradient-text">완전 가이드</span>
-          </h1>
-          <p className="mx-auto max-w-2xl text-lg text-slate-500 dark:text-slate-400">
-            프론트엔드 개발자가 실전에서 쓰는 방식으로 정리했습니다. 비전공자도
-            바로 쓸 수 있게, 전문가도 새로운 걸 발견할 수 있게.
-          </p>
-          <div className="flex gap-4 justify-center items-center mt-4 text-sm text-slate-400">
-            <span className="flex gap-1 items-center">
-              <Users size={13} /> 프론트엔드 개발자 전용
-            </span>
-            <span className="flex gap-1 items-center">
-              <Star size={13} /> 2025.05 최신화
-            </span>
+
+        <div className="px-4 mx-auto max-w-7xl sm:px-6">
+          <div className="flex flex-col items-center text-center lg:flex-row lg:text-left lg:gap-16 lg:items-center">
+            {/* Left: text */}
+            <div className="flex-1">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-violet-500/30 bg-violet-50 dark:bg-violet-500/10 text-violet-600 dark:text-violet-400 text-xs font-semibold mb-5 shadow-sm">
+                <Terminal size={12} />
+                <span>AI 코딩 에이전트 · Anthropic 공식</span>
+              </div>
+
+              <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-tight sm:text-5xl lg:text-6xl text-slate-900 dark:text-white">
+                Claude Code
+                <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-500 via-purple-500 to-indigo-500">
+                  완전 가이드
+                </span>
+              </h1>
+
+              <p className="mb-6 max-w-xl text-base leading-relaxed lg:text-lg text-slate-500 dark:text-slate-400">
+                프론트엔드 개발자가 실전에서 쓰는 방식으로 정리했습니다.
+                비전공자도 바로 쓸 수 있게, 전문가도 새로운 걸 발견할 수 있게.
+              </p>
+
+              <div className="flex flex-wrap gap-3 justify-center text-xs font-medium lg:justify-start">
+                {[
+                  { icon: Users, label: "프론트엔드 개발자 전용" },
+                  { icon: Star, label: "2025.05 최신화" },
+                  { icon: Heart, label: "실전 중심" },
+                ].map((item) => (
+                  <span
+                    key={item.label}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/8"
+                  >
+                    <item.icon size={11} />
+                    {item.label}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Right: terminal mockup */}
+            <div className="hidden lg:block shrink-0 w-[360px]">
+              <div className="overflow-hidden rounded-2xl border shadow-2xl border-slate-200 dark:border-white/10 shadow-violet-500/10 dark:shadow-violet-500/20">
+                <div className="flex gap-2 items-center px-4 py-3 border-b bg-slate-800 dark:bg-black/80 border-white/5">
+                  <span className="w-3 h-3 rounded-full bg-red-500/90" />
+                  <span className="w-3 h-3 rounded-full bg-yellow-500/90" />
+                  <span className="w-3 h-3 rounded-full bg-green-500/90" />
+                  <span className="ml-2 font-mono text-xs text-slate-400">
+                    claude
+                  </span>
+                </div>
+                <div className="bg-slate-900 dark:bg-[#0a0a0a] p-5 font-mono text-xs leading-relaxed">
+                  <p className="text-slate-500">$ claude</p>
+                  <p className="mt-2 text-violet-400">
+                    ✻ Welcome to Claude Code!
+                  </p>
+                  <p className="mt-3 text-slate-400">
+                    <span className="text-green-400">You:</span> useAuth 훅에서
+                    TypeError 발생함
+                  </p>
+                  <p className="mt-2 text-slate-300">
+                    <span className="text-violet-400">Claude:</span> 분석 중...
+                  </p>
+                  <p className="text-slate-400 mt-1.5">
+                    ● Read src/hooks/useAuth.ts
+                  </p>
+                  <p className="text-slate-400">● Bash: npm test useAuth</p>
+                  <p className="mt-2 text-green-400">
+                    ✓ 버그 수정 완료. 테스트 통과.
+                  </p>
+                  <span className="inline-block mt-1 w-2 h-4 bg-violet-400 animate-pulse" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="sticky top-0 z-20 bg-white dark:bg-[#111] border-b border-slate-200 dark:border-white/5 shadow-sm">
+      {/* Tab bar */}
+      <div className="sticky top-0 z-20 bg-white/90 dark:bg-[#0d0d0d]/90 backdrop-blur-md border-b border-slate-200 dark:border-white/5 shadow-sm">
         <div className="px-4 mx-auto max-w-7xl sm:px-6">
           <div
-            className="flex overflow-x-auto gap-1 py-2"
+            className="flex overflow-x-auto gap-0.5 py-2"
             style={{ scrollbarWidth: "none" }}
           >
-            {TABS.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all ${activeTab === tab.id ? "bg-violet-600 text-white shadow-sm" : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5"}`}
-              >
-                <tab.icon size={14} />
-                {tab.label}
-              </button>
-            ))}
+            {TABS.map((tab) => {
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`relative flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-200 ${
+                    isActive
+                      ? "bg-gradient-to-br from-violet-600 to-violet-700 text-white shadow-md shadow-violet-500/30"
+                      : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-slate-200"
+                  }`}
+                >
+                  <tab.icon size={13} />
+                  {tab.label}
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
 
-      <div className="px-4 pt-8 mx-auto max-w-7xl sm:px-6">
+      <div className="px-4 pt-10 mx-auto max-w-7xl sm:px-6">
         {renderContent()}
       </div>
     </div>

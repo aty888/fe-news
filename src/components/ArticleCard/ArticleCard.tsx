@@ -47,7 +47,7 @@ export default function ArticleCard({
 
         <div className="relative z-10 p-6">
           {/* Type & Category */}
-          <div className="flex gap-2 items-center mb-4">
+          <div className="flex flex-wrap gap-2 items-center mb-4">
             <span className="text-xs tag bg-brand-500/10 text-brand-600 dark:text-brand-400">
               {typeInfo.icon} {typeInfo.label}
             </span>

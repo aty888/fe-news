@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.claudecode101.com)",
+      "WebFetch(domain:claudeable.co)",
+      "WebFetch(domain:claude.ai)",
+      "WebFetch(domain:medium.com)",
+      "WebFetch(domain:smartscope.blog)",
+      "WebFetch(domain:dometrain.com)",
+      "WebFetch(domain:www.builder.io)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(npx tsc *)",
+      "Bash(cat .env.example)",
+      "Bash(ls -la .env*)"
+    ]
+  }
+}

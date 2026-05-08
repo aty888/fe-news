@@ -41,6 +41,13 @@ export default {
         'slide-up': 'slideUp 0.4s ease-out',
         'slide-in-right': 'slideInRight 0.3s ease-out',
         'pulse-soft': 'pulseSoft 2s infinite',
+        'float': 'float 6s ease-in-out infinite',
+        'float-slow': 'float 9s ease-in-out infinite',
+        'float-fast': 'float 4s ease-in-out infinite',
+        'shimmer': 'shimmer 4s linear infinite',
+        'spin-slow': 'spin 24s linear infinite',
+        'glow': 'glow 3s ease-in-out infinite',
+        'drift': 'drift 12s ease-in-out infinite',
       },
       keyframes: {
         fadeIn: {
@@ -58,6 +65,23 @@ export default {
         pulseSoft: {
           '0%, 100%': { opacity: '1' },
           '50%': { opacity: '0.6' },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-14px)' },
+        },
+        shimmer: {
+          '0%': { backgroundPosition: '-200% center' },
+          '100%': { backgroundPosition: '200% center' },
+        },
+        glow: {
+          '0%, 100%': { opacity: '0.5' },
+          '50%': { opacity: '1' },
+        },
+        drift: {
+          '0%, 100%': { transform: 'translateY(0px) translateX(0px)' },
+          '33%': { transform: 'translateY(-18px) translateX(8px)' },
+          '66%': { transform: 'translateY(8px) translateX(-10px)' },
         },
       },
       backdropBlur: {
