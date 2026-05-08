@@ -21,6 +21,7 @@ export default function Navbar({
     { to: "/news", label: "뉴스" },
     { to: "/tutorials", label: "튜토리얼" },
     { to: "/releases", label: "릴리즈" },
+    { to: "/claude-code", label: "Claude Code" },
     { to: "/resources", label: "필수 리소스" },
     { to: "/bookmarks", label: "북마크" },
     { to: "/board", label: "게시판" },

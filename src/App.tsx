@@ -14,6 +14,7 @@ import BoardPage from './pages/BoardPage/BoardPage';
 import BoardFormPage from './pages/BoardPage/BoardFormPage';
 import BoardDetailPage from './pages/BoardPage/BoardDetailPage';
 import ResourcesPage from './pages/ResourcesPage/ResourcesPage';
+import ClaudeCodePage from './pages/ClaudeCodePage/ClaudeCodePage';
 
 function AppInner() {
   const { articles, featured, filter, setFilter, toggleBookmark, bookmarks, isLoading } = useArticles();
@@ -76,6 +77,7 @@ function AppInner() {
           <Route path="/board/edit/:id" element={<BoardFormPage />} />
           <Route path="/board/:id" element={<BoardDetailPage />} />
           <Route path="/resources" element={<ResourcesPage />} />
+          <Route path="/claude-code" element={<ClaudeCodePage />} />
         </Routes>
       </main>
 
