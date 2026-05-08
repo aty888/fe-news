@@ -1,7 +1,7 @@
 import { Sun, Moon, Rss, Github, Search } from "lucide-react";
 import { useTheme } from "../../contexts/ThemeContext";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { useState } from "react";
 
 interface NavbarProps {
   onSearchOpen?: () => void;
@@ -14,7 +14,6 @@ export default function Navbar({
 }: NavbarProps) {
   const { toggleTheme, isDark } = useTheme();
   const location = useLocation();
-  const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const navLinks = [

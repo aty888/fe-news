@@ -1,4 +1,3 @@
-import React from 'react';
 import { 
   BookOpen, Code, Terminal, Layout, Youtube, CheckCircle, 
   Package, Map, MessageSquare, Globe, PenTool, ExternalLink 
