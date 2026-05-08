@@ -20,8 +20,7 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-sm text-slate-500 dark:text-slate-400 text-center md:text-left">
-              프론트엔드 개발자를 위한 최신 뉴스, 트렌드, 그리고 지식을
-              한곳에서.
+              프론트엔드 개발자를 위한 최신 뉴스,<br className="md:hidden" /> 트렌드, 그리고 지식을 한곳에서.
             </p>
           </div>
 
