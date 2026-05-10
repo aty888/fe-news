@@ -75,7 +75,17 @@ export function useArticles() {
       // 1. Substack API (KOFE Article)
       try {
         const subRes = await fetch("/api/substack/homepage_data");
-        if (subRes.ok) {
+        const contentType = subRes.headers.get("content-type") || "";
+
+        if (!subRes.ok) {
+          console.warn(`Substack API HTTP 오류: ${subRes.status} ${subRes.statusText}`);
+        } else if (!contentType.includes("application/json")) {
+          // HTML 리다이렉트 응답(인증 필요 등) 방어
+          console.warn(
+            `Substack API가 JSON이 아닌 응답을 반환했습니다 (Content-Type: ${contentType}). ` +
+            `Substack이 인증을 요구하거나 엔드포인트가 변경되었을 수 있습니다.`
+          );
+        } else {
           const data = await subRes.json();
           const posts = data.newPosts || data.topPosts || [];
 
@@ -106,6 +116,7 @@ export function useArticles() {
       } catch (error) {
         console.error("Substack API 연동 실패:", error);
       }
+
 
       // 2. Dev.to API (캐싱 적용 및 요청 최적화)
       try {
