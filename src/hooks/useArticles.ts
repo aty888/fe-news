@@ -72,38 +72,58 @@ export function useArticles() {
       setIsLoading(true);
       let results: Article[] = [];
 
-      // 1. KOFE Article (Substack RSS 피드)
+      // 1. KOFE Article (Substack RSS 피드) — 오전/오후 각 1회 캐싱
       try {
-        const subRes = await fetch(
-          "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fkofearticle.substack.com%2Ffeed&num=20"
-        );
-        if (subRes.ok) {
-          const data = await subRes.json();
-          if (data.items && Array.isArray(data.items)) {
-            data.items.forEach((post: any) => {
-              if (!post) return;
-              const plainTextDesc = post.description
-                ?.replace(/<[^>]*>?/gm, "")
-                .trim();
-              results.push({
-                id: `sub-${post.guid || Math.random()}`,
-                title: post.title || "No Title",
-                summary: plainTextDesc ? plainTextDesc.substring(0, 150) + "..." : "",
-                category: mapDevToCategory([post.title || "", "Frontend"]),
-                type: getArticleType(["Frontend", "Substack"], post.title),
-                author: post.author || "KOFE",
-                publishedAt: post.pubDate || new Date().toISOString(),
-                readTime: 5,
-                url: post.link || "#",
-                tags: ["Frontend", "Substack"],
-                imageUrl: post.thumbnail || "",
-                likes: 0,
-                views: 0,
-                isFeatured: true,
-              });
-            });
+        const KOFE_CACHE_KEY = "fe-news-kofe-cache";
+        const KOFE_PERIOD_KEY = "fe-news-kofe-cache-period";
+
+        const now = new Date();
+        const datePart = now.toISOString().slice(0, 10); // "YYYY-MM-DD"
+        const halfPart = now.getHours() < 12 ? "AM" : "PM";
+        const currentPeriod = `${datePart}-${halfPart}`;
+
+        const cachedPeriod = localStorage.getItem(KOFE_PERIOD_KEY);
+        const cachedKofe = localStorage.getItem(KOFE_CACHE_KEY);
+        const isKofeCacheValid = cachedPeriod === currentPeriod && cachedKofe !== null;
+
+        let kofeItems: any[] = [];
+
+        if (isKofeCacheValid) {
+          kofeItems = JSON.parse(cachedKofe!);
+        } else {
+          const subRes = await fetch(
+            "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fkofearticle.substack.com%2Ffeed&num=20"
+          );
+          if (subRes.ok) {
+            const data = await subRes.json();
+            if (data.items && Array.isArray(data.items)) {
+              kofeItems = data.items;
+              localStorage.setItem(KOFE_CACHE_KEY, JSON.stringify(kofeItems));
+              localStorage.setItem(KOFE_PERIOD_KEY, currentPeriod);
+            }
           }
         }
+
+        kofeItems.forEach((post: any) => {
+          if (!post) return;
+          const plainTextDesc = post.description?.replace(/<[^>]*>?/gm, "").trim();
+          results.push({
+            id: `sub-${post.guid || Math.random()}`,
+            title: post.title || "No Title",
+            summary: plainTextDesc ? plainTextDesc.substring(0, 150) + "..." : "",
+            category: mapDevToCategory([post.title || "", "Frontend"]),
+            type: getArticleType(["Frontend", "Substack"], post.title),
+            author: post.author || "KOFE",
+            publishedAt: post.pubDate || new Date().toISOString(),
+            readTime: 5,
+            url: post.link || "#",
+            tags: ["Frontend", "Substack"],
+            imageUrl: post.thumbnail || "",
+            likes: 0,
+            views: 0,
+            isFeatured: true,
+          });
+        });
       } catch (error) {
         console.error("KOFE Substack RSS 연동 실패:", error);
       }
