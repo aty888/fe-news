@@ -72,49 +72,40 @@ export function useArticles() {
       setIsLoading(true);
       let results: Article[] = [];
 
-      // 1. Substack API (KOFE Article)
+      // 1. KOFE Article (Substack RSS 피드)
       try {
-        const subRes = await fetch("/api/substack/homepage_data");
-        const contentType = subRes.headers.get("content-type") || "";
-
-        if (!subRes.ok) {
-          console.warn(`Substack API HTTP 오류: ${subRes.status} ${subRes.statusText}`);
-        } else if (!contentType.includes("application/json")) {
-          // HTML 리다이렉트 응답(인증 필요 등) 방어
-          console.warn(
-            `Substack API가 JSON이 아닌 응답을 반환했습니다 (Content-Type: ${contentType}). ` +
-            `Substack이 인증을 요구하거나 엔드포인트가 변경되었을 수 있습니다.`
-          );
-        } else {
+        const subRes = await fetch(
+          "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fkofearticle.substack.com%2Ffeed&num=20"
+        );
+        if (subRes.ok) {
           const data = await subRes.json();
-          const posts = data.newPosts || data.topPosts || [];
-
-          posts.forEach((post: any) => {
-            if (!post) return;
-            results.push({
-              id: `sub-${post.id}`,
-              title: post.title || "No Title",
-              summary: post.description || post.truncated_body_text || "",
-              category: mapDevToCategory([
-                post.title || "",
-                post.description || "",
-                "Frontend",
-              ]),
-              type: getArticleType(["Frontend", "Substack"], post.title),
-              author: post.publishedBylines?.[0]?.name || "KOFE",
-              publishedAt: post.post_date || new Date().toISOString(),
-              readTime: 5,
-              url: post.canonical_url || "#",
-              tags: ["Frontend", "Substack"],
-              imageUrl: post.cover_image,
-              likes: post.reaction_count || 0,
-              views: post.comment_count ? post.comment_count * 10 : 0,
-              isFeatured: true,
+          if (data.items && Array.isArray(data.items)) {
+            data.items.forEach((post: any) => {
+              if (!post) return;
+              const plainTextDesc = post.description
+                ?.replace(/<[^>]*>?/gm, "")
+                .trim();
+              results.push({
+                id: `sub-${post.guid || Math.random()}`,
+                title: post.title || "No Title",
+                summary: plainTextDesc ? plainTextDesc.substring(0, 150) + "..." : "",
+                category: mapDevToCategory([post.title || "", "Frontend"]),
+                type: getArticleType(["Frontend", "Substack"], post.title),
+                author: post.author || "KOFE",
+                publishedAt: post.pubDate || new Date().toISOString(),
+                readTime: 5,
+                url: post.link || "#",
+                tags: ["Frontend", "Substack"],
+                imageUrl: post.thumbnail || "",
+                likes: 0,
+                views: 0,
+                isFeatured: true,
+              });
             });
-          });
+          }
         }
       } catch (error) {
-        console.error("Substack API 연동 실패:", error);
+        console.error("KOFE Substack RSS 연동 실패:", error);
       }
 
 
