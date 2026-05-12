@@ -14,7 +14,7 @@ interface NewsPageProps {
 }
 
 export default function NewsPage({ articles, filter, setFilter, onToggleBookmark }: NewsPageProps) {
-  const news = articles.filter((a) => a.type === 'news' || a.type === 'release');
+  const news = articles;
 
   return (
     <div>

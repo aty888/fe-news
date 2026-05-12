@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 
 import type { Article, Category, ContentType } from "../types";
+import { articles as seedArticles } from "../data/articles";
 
 export interface FilterState {
   search: string;
@@ -340,8 +341,8 @@ export function useArticles() {
         console.error("추가 RSS 피드 병렬 연동 중 오류 발생:", error);
       }
 
-      // 데이터 병합 (결과 배열)
-      const merged = [...results];
+      // 데이터 병합 — API 결과 + 시드 데이터 (항상 노출 보장)
+      const merged = [...results, ...seedArticles];
 
       // 날짜순 정렬 (유효하지 않은 날짜 처리)
       merged.sort((a, b) => {
