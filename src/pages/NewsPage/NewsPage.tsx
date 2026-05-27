@@ -10,10 +10,9 @@ interface NewsPageProps {
   articles: Article[];
   filter: FilterState;
   setFilter: (f: FilterState) => void;
-  onToggleBookmark: (id: string) => void;
 }
 
-export default function NewsPage({ articles, filter, setFilter, onToggleBookmark }: NewsPageProps) {
+export default function NewsPage({ articles, filter, setFilter }: NewsPageProps) {
   const news = articles;
 
   return (
@@ -83,7 +82,7 @@ export default function NewsPage({ articles, filter, setFilter, onToggleBookmark
             <div className="mb-6">
               <FilterBar filter={filter} setFilter={setFilter} totalCount={news.length} />
             </div>
-            <InfiniteArticleList articles={news} onToggleBookmark={onToggleBookmark} />
+            <InfiniteArticleList articles={news} />
           </div>
           <Sidebar articles={articles} />
         </div>

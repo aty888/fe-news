@@ -4,11 +4,10 @@ import type { Article } from '../../types';
 
 interface Props {
   articles: Article[];
-  onToggleBookmark: (id: string) => void;
   itemsPerPage?: number;
 }
 
-export default function InfiniteArticleList({ articles, onToggleBookmark, itemsPerPage = 12 }: Props) {
+export default function InfiniteArticleList({ articles, itemsPerPage = 12 }: Props) {
   const [displayedCount, setDisplayedCount] = useState(itemsPerPage);
   const observerRef = useRef<HTMLDivElement>(null);
 
@@ -50,10 +49,10 @@ export default function InfiniteArticleList({ articles, onToggleBookmark, itemsP
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {displayedArticles.map((article) => (
-          <ArticleCard key={article.id} article={article} onToggleBookmark={onToggleBookmark} />
+          <ArticleCard key={article.id} article={article} />
         ))}
       </div>
-      
+
       {displayedCount < articles.length && (
         <div ref={observerRef} className="py-10 flex justify-center items-center">
           <div className="w-8 h-8 rounded-full border-4 border-slate-200 dark:border-slate-800 border-t-brand-500 animate-spin" />

@@ -7,7 +7,6 @@ export interface FilterState {
   search: string;
   category: Category | "All";
   type: ContentType | "All";
-  bookmarked: boolean;
   language: "All" | "ko" | "en";
 }
 
@@ -48,20 +47,10 @@ function getArticleType(tags: string[], title: string = ""): ContentType {
 }
 
 export function useArticles() {
-  const [bookmarks, setBookmarks] = useState<Set<string>>(() => {
-    try {
-      const saved = localStorage.getItem("fe-news-bookmarks");
-      return saved ? new Set(JSON.parse(saved)) : new Set();
-    } catch {
-      return new Set();
-    }
-  });
-
   const [filter, setFilter] = useState<FilterState>({
     search: "",
     category: "All",
     type: "All",
-    bookmarked: false,
     language: "All",
   });
 
@@ -366,24 +355,8 @@ export function useArticles() {
     fetchApis();
   }, []);
 
-  const toggleBookmark = (id: string) => {
-    setBookmarks((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) {
-        next.delete(id);
-      } else {
-        next.add(id);
-      }
-      localStorage.setItem("fe-news-bookmarks", JSON.stringify([...next]));
-      return next;
-    });
-  };
-
   const articles = useMemo<Article[]>(() => {
-    let result = fetchedArticles.map((a) => ({
-      ...a,
-      isBookmarked: bookmarks.has(a.id),
-    }));
+    let result = [...fetchedArticles];
 
     if (filter.search) {
       const q = filter.search.toLowerCase();
@@ -404,10 +377,6 @@ export function useArticles() {
       result = result.filter((a) => a.type === filter.type);
     }
 
-    if (filter.bookmarked) {
-      result = result.filter((a) => a.isBookmarked);
-    }
-
     if (filter.language !== "All") {
       result = result.filter((a) => {
         const lang = a.language || detectLanguage(a.title, a.summary);
@@ -416,7 +385,7 @@ export function useArticles() {
     }
 
     return result;
-  }, [bookmarks, filter, fetchedArticles]);
+  }, [filter, fetchedArticles]);
 
   const featured = useMemo(
     () => fetchedArticles.filter((a) => a.isFeatured).slice(0, 4),
@@ -428,8 +397,6 @@ export function useArticles() {
     featured,
     filter,
     setFilter,
-    toggleBookmark,
-    bookmarks,
     isLoading,
   };
 }

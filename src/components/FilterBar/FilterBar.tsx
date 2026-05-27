@@ -72,12 +72,6 @@ export default function FilterBar({
           <SlidersHorizontal size={14} />
           <span>{totalCount}개 기사</span>
         </div>
-        <button
-          onClick={() => update({ bookmarked: !filter.bookmarked })}
-          className={`btn-ghost text-sm ${filter.bookmarked ? "text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-500/10" : ""}`}
-        >
-          🔖 북마크
-        </button>
       </div>
 
       {/* Category tabs */}

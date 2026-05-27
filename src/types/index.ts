@@ -25,7 +25,6 @@ export interface Article {
   readTime: number;
   url: string;
   tags: string[];
-  isBookmarked?: boolean;
   isFeatured?: boolean;
   imageUrl?: string;
   views?: number;

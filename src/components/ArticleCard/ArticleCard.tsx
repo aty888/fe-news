@@ -1,6 +1,4 @@
 import {
-  Bookmark,
-  BookmarkCheck,
   Clock,
   Eye,
   Heart,
@@ -13,13 +11,11 @@ import { ko } from "date-fns/locale";
 
 interface ArticleCardProps {
   article: Article;
-  onToggleBookmark: (id: string) => void;
   featured?: boolean;
 }
 
 export default function ArticleCard({
   article,
-  onToggleBookmark,
   featured,
 }: ArticleCardProps) {
   const timeAgo = formatDistanceToNow(new Date(article.publishedAt), {
@@ -118,20 +114,6 @@ export default function ArticleCard({
                 </span>
               )}
             </div>
-            <button
-              onClick={() => onToggleBookmark(article.id)}
-              className={`p-1.5 rounded-lg transition-all duration-200 cursor-pointer ${
-                article.isBookmarked
-                  ? "text-brand-500 bg-brand-50 dark:bg-brand-500/10"
-                  : "text-slate-400 hover:text-brand-500 hover:bg-brand-50 dark:hover:bg-brand-500/10"
-              }`}
-            >
-              {article.isBookmarked ? (
-                <BookmarkCheck size={16} />
-              ) : (
-                <Bookmark size={16} />
-              )}
-            </button>
             <a
               href={article.url}
               target="_blank"
@@ -165,20 +147,6 @@ export default function ArticleCard({
               </span>
             )}
           </div>
-          <button
-            onClick={() => onToggleBookmark(article.id)}
-            className={`p-1.5 rounded-lg shrink-0 transition-all duration-200 cursor-pointer ${
-              article.isBookmarked
-                ? "text-brand-500 bg-brand-50 dark:bg-brand-500/10"
-                : "text-slate-300 dark:text-slate-600 hover:text-brand-500 hover:bg-brand-50 dark:hover:bg-brand-500/10"
-            }`}
-          >
-            {article.isBookmarked ? (
-              <BookmarkCheck size={15} />
-            ) : (
-              <Bookmark size={15} />
-            )}
-          </button>
         </div>
 
         {/* Title */}

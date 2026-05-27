@@ -10,10 +10,9 @@ interface TutorialsPageProps {
   articles: Article[];
   filter: FilterState;
   setFilter: (f: FilterState) => void;
-  onToggleBookmark: (id: string) => void;
 }
 
-export default function TutorialsPage({ articles, filter, setFilter, onToggleBookmark }: TutorialsPageProps) {
+export default function TutorialsPage({ articles, filter, setFilter }: TutorialsPageProps) {
   const tutorials = articles.filter((a) => a.type === 'tutorial' || a.type === 'tip');
 
   const avgReadTime = tutorials.length > 0
@@ -83,7 +82,7 @@ export default function TutorialsPage({ articles, filter, setFilter, onToggleBoo
             <div className="mb-6">
               <FilterBar filter={filter} setFilter={setFilter} totalCount={tutorials.length} />
             </div>
-            <InfiniteArticleList articles={tutorials} onToggleBookmark={onToggleBookmark} />
+            <InfiniteArticleList articles={tutorials} />
           </div>
           <Sidebar articles={articles} />
         </div>

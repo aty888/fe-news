@@ -16,7 +16,6 @@ interface HomePageProps {
   featured: Article[];
   filter: FilterState;
   setFilter: (f: FilterState) => void;
-  onToggleBookmark: (id: string) => void;
   isLoading?: boolean;
 }
 
@@ -75,7 +74,7 @@ const STAT_BG = [
   'bg-accent-500/10 dark:bg-accent-500/15',
 ];
 
-export default function HomePage({ articles, featured, filter, setFilter, onToggleBookmark, isLoading }: HomePageProps) {
+export default function HomePage({ articles, featured, filter, setFilter, isLoading }: HomePageProps) {
   return (
     <div>
       {/* ── Hero ─────────────────────────────────────────── */}
@@ -186,7 +185,7 @@ export default function HomePage({ articles, featured, filter, setFilter, onTogg
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               {featured.map((article) => (
-                <ArticleCard key={article.id} article={{ ...article, isBookmarked: false }} onToggleBookmark={onToggleBookmark} featured />
+                <ArticleCard key={article.id} article={article} featured />
               ))}
             </div>
           </section>
@@ -216,7 +215,7 @@ export default function HomePage({ articles, featured, filter, setFilter, onTogg
               <>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {articles.slice(0, 10).map((article) => (
-                    <ArticleCard key={article.id} article={article} onToggleBookmark={onToggleBookmark} />
+                    <ArticleCard key={article.id} article={article} />
                   ))}
                 </div>
                 {articles.length > 10 && (

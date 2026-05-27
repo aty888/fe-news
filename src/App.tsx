@@ -9,15 +9,11 @@ import HomePage from './pages/HomePage/HomePage';
 import NewsPage from './pages/NewsPage/NewsPage';
 import TutorialsPage from './pages/TutorialsPage/TutorialsPage';
 import ReleasesPage from './pages/ReleasesPage/ReleasesPage';
-import BookmarksPage from './pages/BookmarksPage/BookmarksPage';
-import BoardPage from './pages/BoardPage/BoardPage';
-import BoardFormPage from './pages/BoardPage/BoardFormPage';
-import BoardDetailPage from './pages/BoardPage/BoardDetailPage';
 import ResourcesPage from './pages/ResourcesPage/ResourcesPage';
 import ClaudeCodePage from './pages/ClaudeCodePage/ClaudeCodePage';
 
 function AppInner() {
-  const { articles, featured, filter, setFilter, toggleBookmark, bookmarks, isLoading } = useArticles();
+  const { articles, featured, filter, setFilter, isLoading } = useArticles();
   const [searchOpen, setSearchOpen] = useState(false);
 
   // Global keyboard shortcut
@@ -36,16 +32,12 @@ function AppInner() {
     articles,
     filter,
     setFilter,
-    onToggleBookmark: toggleBookmark,
     isLoading,
   };
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar
-        onSearchOpen={() => setSearchOpen(true)}
-        bookmarkCount={bookmarks.size}
-      />
+      <Navbar onSearchOpen={() => setSearchOpen(true)} />
 
       <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
 
@@ -63,19 +55,6 @@ function AppInner() {
           <Route path="/news" element={<NewsPage {...sharedProps} />} />
           <Route path="/tutorials" element={<TutorialsPage {...sharedProps} />} />
           <Route path="/releases" element={<ReleasesPage {...sharedProps} />} />
-          <Route
-            path="/bookmarks"
-            element={
-              <BookmarksPage
-                articles={articles}
-                onToggleBookmark={toggleBookmark}
-              />
-            }
-          />
-          <Route path="/board" element={<BoardPage />} />
-          <Route path="/board/create" element={<BoardFormPage />} />
-          <Route path="/board/edit/:id" element={<BoardFormPage />} />
-          <Route path="/board/:id" element={<BoardDetailPage />} />
           <Route path="/resources" element={<ResourcesPage />} />
           <Route path="/claude-code" element={<ClaudeCodePage />} />
         </Routes>

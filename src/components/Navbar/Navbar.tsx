@@ -5,13 +5,9 @@ import { useState } from "react";
 
 interface NavbarProps {
   onSearchOpen?: () => void;
-  bookmarkCount?: number;
 }
 
-export default function Navbar({
-  onSearchOpen,
-  bookmarkCount = 0,
-}: NavbarProps) {
+export default function Navbar({ onSearchOpen }: NavbarProps) {
   const { toggleTheme, isDark } = useTheme();
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -23,8 +19,6 @@ export default function Navbar({
     { to: "/releases", label: "릴리즈" },
     { to: "/claude-code", label: "Claude Code" },
     { to: "/resources", label: "필수 리소스" },
-    { to: "/bookmarks", label: "북마크" },
-    { to: "/board", label: "게시판" },
   ];
 
   const isActive = (path: string) => {
@@ -60,11 +54,6 @@ export default function Navbar({
                 }`}
               >
                 {link.label}
-                {link.to === "/bookmarks" && bookmarkCount > 0 && (
-                  <span className="ml-1.5 inline-flex items-center justify-center w-5 h-5 rounded-full bg-brand-500 text-white text-xs font-bold">
-                    {bookmarkCount}
-                  </span>
-                )}
               </Link>
             ))}
           </nav>
@@ -136,11 +125,6 @@ export default function Navbar({
                 }`}
               >
                 {link.label}
-                {link.to === "/bookmarks" && bookmarkCount > 0 && (
-                  <span className="inline-flex justify-center items-center ml-auto w-5 h-5 text-xs font-bold text-white rounded-full bg-brand-500">
-                    {bookmarkCount}
-                  </span>
-                )}
               </Link>
             ))}
           </div>

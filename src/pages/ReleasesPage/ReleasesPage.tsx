@@ -10,10 +10,9 @@ interface ReleasesPageProps {
   articles: Article[];
   filter: FilterState;
   setFilter: (f: FilterState) => void;
-  onToggleBookmark: (id: string) => void;
 }
 
-export default function ReleasesPage({ articles, filter, setFilter, onToggleBookmark }: ReleasesPageProps) {
+export default function ReleasesPage({ articles, filter, setFilter }: ReleasesPageProps) {
   const releases = articles.filter((a) => a.type === 'release');
 
   const thisMonth = releases.filter((a) => {
@@ -87,7 +86,7 @@ export default function ReleasesPage({ articles, filter, setFilter, onToggleBook
             <div className="mb-6">
               <FilterBar filter={filter} setFilter={setFilter} totalCount={releases.length} />
             </div>
-            <InfiniteArticleList articles={releases} onToggleBookmark={onToggleBookmark} />
+            <InfiniteArticleList articles={releases} />
           </div>
           <Sidebar articles={articles} />
         </div>
